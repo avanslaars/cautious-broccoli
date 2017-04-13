@@ -27,11 +27,13 @@ export class App extends Component {
   render() {
     return (
       <div>
-        <h1>{this.props.greeting || 'Hello World'}</h1>
-        <Link to='/'>Root</Link>
-        <Link to='/hello'>Hello</Link>
-        <Link to='/cards'>Cards</Link>
+        <h1>{this.props.greeting || 'New Default'}</h1>
+        <Link to='/'>Root</Link>{' '}
+        <Link to='/hello'>Hello</Link>{' '}
+        <Link to='/cards'>Cards</Link>{' '}
+        <Link to='/something/else'>Unhandled Route</Link>{' '}
         <hr/>
+        <h2>New Stuff - Again</h2>
         <Switch>
           <Route path="/" exact render={() => <h2>Root URL</h2>}/>
           <Route path="/hello" render={() => (
@@ -41,7 +43,8 @@ export class App extends Component {
                 <button onClick={this.decrement}>-</button>
               </div>
             )}/>
-          <Route path='/cards' component={Card} />
+          <Route path='/cards' render={() => <Card />} />
+          <Route render={() => <h1>404</h1>} />
         </Switch>
       </div>
     )

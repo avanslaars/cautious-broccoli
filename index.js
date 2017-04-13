@@ -6,9 +6,8 @@ const inert = require('inert')
 const handlebars = require('handlebars')
 const ReactDOMServer = require('react-dom/server')
 const React = require('react')
-const {ServerApp} = require('./components/components')
+const {ServerApp} = require('./compiled_components/app')
 
-// Create a server with a host and port
 const server = new Hapi.Server()
 
 server.connection({
@@ -33,37 +32,29 @@ const genericHandler = function(request, reply) {
   const initialState = {greeting:'From the server with Handlebars', count: 1}
   const url = request.url.path
   const reactApp = ReactDOMServer.renderToString(AppEl({initialState, url}))
-  reply.view('hello', { message: 'My home page', reactApp, initialState: JSON.stringify(initialState) });
+  reply.view('index', { message: 'Server Template Content', reactApp, initialState: JSON.stringify(initialState) });
 }
 
-const cardHandler = function(request, reply) {
-  const AppEl = React.createFactory(ServerApp)
-  const initialState = {greeting:'Card server handler', count: 1}
-  const url = request.url.path
-  const reactApp = ReactDOMServer.renderToString(AppEl({initialState, url}))
-  reply.view('hello', { message: 'My home page', reactApp, initialState: JSON.stringify(initialState) });
-}
-
-server.route([{
-    method: 'GET',
-    path:'/',
-    handler: genericHandler
-}, {
-    method: 'GET',
-    path:'/hello',
-    handler: genericHandler
-}, {
-    method: 'GET',
-    path: '/cards',
-    handler: cardHandler
-}])
+// const cardHandler = function(request, reply) {
+//   const AppEl = React.createFactory(ServerApp)
+//   const initialState = {greeting:'Card server handler', count: 1}
+//   const url = request.url.path
+//   const reactApp = ReactDOMServer.renderToString(AppEl({initialState, url}))
+//   reply.view('hello', { message: 'My home page', reactApp, initialState: JSON.stringify(initialState) });
+// }
 
 server.route({
     method: 'GET',
-    path: '/{param*}',
+    path:'/{param*}',
+    handler: genericHandler
+})
+
+server.route({
+    method: 'GET',
+    path: '/assets/{param*}',
     handler: {
         directory: {
-            path: 'dist'
+            path: 'build'
         }
     }
 })

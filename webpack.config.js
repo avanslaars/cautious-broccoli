@@ -1,9 +1,9 @@
 const path = require('path');
 module.exports = [{
-  entry: './client/index-client.js',
+  entry: './index-client.js',
   output: {
-    path: path.resolve('dist'),
-    filename: 'index_bundle.js'
+    path: path.resolve('build'),
+    filename: 'bundle.js'
   },
   module: {
     rules: [
@@ -20,10 +20,10 @@ module.exports = [{
   }
 }, {
 
-  entry: './client/index-server.js',
+  entry: './index-server.js',
   output: {
-    path: path.resolve('components'),
-    filename: 'components.js',
+    path: path.resolve('compiled_components'),
+    filename: 'app.js',
     libraryTarget: 'commonjs-module'
   },
   module: {
