@@ -6,7 +6,7 @@ const inert = require('inert')
 const handlebars = require('handlebars')
 const ReactDOMServer = require('react-dom/server')
 const React = require('react')
-const {App} = require('./components/components')
+const {ServerApp} = require('./components/components')
 
 // Create a server with a host and port
 const server = new Hapi.Server()
@@ -28,26 +28,35 @@ const visionReg = server.register(vision, (err) => {
 
 const inertReg = server.register(inert)
 
-// Add the route
-// server.route({
-//     method: 'GET',
-//     path:'/hello',
-//     handler: function (request, reply) {
-//         const AppEl = React.createFactory(App)
-//         return reply(ReactDOMServer.renderToString(AppEl({greeting:'From The Server M-Fer!!'})));
-//     }
-// })
+const genericHandler = function(request, reply) {
+  const AppEl = React.createFactory(ServerApp)
+  const initialState = {greeting:'From the server with Handlebars', count: 1}
+  const url = request.url.path
+  const reactApp = ReactDOMServer.renderToString(AppEl({initialState, url}))
+  reply.view('hello', { message: 'My home page', reactApp, initialState: JSON.stringify(initialState) });
+}
 
-server.route({
+const cardHandler = function(request, reply) {
+  const AppEl = React.createFactory(ServerApp)
+  const initialState = {greeting:'Card server handler', count: 1}
+  const url = request.url.path
+  const reactApp = ReactDOMServer.renderToString(AppEl({initialState, url}))
+  reply.view('hello', { message: 'My home page', reactApp, initialState: JSON.stringify(initialState) });
+}
+
+server.route([{
+    method: 'GET',
+    path:'/',
+    handler: genericHandler
+}, {
     method: 'GET',
     path:'/hello',
-    handler: function(request, reply) {
-      const AppEl = React.createFactory(App)
-      const initialState = {greeting:'From the server with Handlebars', count: 1}
-      const reactApp = ReactDOMServer.renderToString(AppEl(initialState))
-      reply.view('hello', { message: 'My home page', reactApp, initialState: JSON.stringify(initialState) });
-    }
-})
+    handler: genericHandler
+}, {
+    method: 'GET',
+    path: '/cards',
+    handler: cardHandler
+}])
 
 server.route({
     method: 'GET',
