@@ -43,7 +43,7 @@ export class App extends Component {
                 <button onClick={this.decrement}>-</button>
               </div>
             )}/>
-          <Route path='/cards' render={() => <Card />} />
+          <Route path='/cards' component={Card} />
           <Route render={() => <h1>404</h1>} />
         </Switch>
       </div>

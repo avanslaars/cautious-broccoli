@@ -7,7 +7,8 @@
     "build": "webpack",
     "build:watch": "webpack --watch",
     "run-dev": "nodemon index.js",
-    "dev": "npm run build:watch & npm run run-dev"
+    "dev": "npm run build:watch & npm run run-dev",
+    "prod": "webpack -p"
   },
   "keywords": [],
   "author": "",

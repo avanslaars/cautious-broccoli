@@ -32,22 +32,14 @@ const genericHandler = function(request, reply) {
   const initialState = {greeting:'From the server with Handlebars', count: 1}
   const url = request.url.path
   const reactApp = ReactDOMServer.renderToString(AppEl({initialState, url}))
-  reply.view('index', { message: 'Server Template Content', reactApp, initialState: JSON.stringify(initialState) });
+  reply.view('index', { message: `Entry Point: ${url}`, reactApp, initialState: JSON.stringify(initialState) });
 }
 
-// const cardHandler = function(request, reply) {
-//   const AppEl = React.createFactory(ServerApp)
-//   const initialState = {greeting:'Card server handler', count: 1}
-//   const url = request.url.path
-//   const reactApp = ReactDOMServer.renderToString(AppEl({initialState, url}))
-//   reply.view('hello', { message: 'My home page', reactApp, initialState: JSON.stringify(initialState) });
-// }
-
-server.route({
+server.route([{
     method: 'GET',
     path:'/{param*}',
     handler: genericHandler
-})
+}])
 
 server.route({
     method: 'GET',
