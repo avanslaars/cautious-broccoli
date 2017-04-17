@@ -33,22 +33,6 @@ const genericHandler = function (request, reply) {
   reply.view('index', { message: `Entry Point: ${url}`, reactApp, initialState: JSON.stringify(initialState) })
 }
 
-// server.route([{
-//   method: 'GET',
-//   path: '/{param*}',
-//   handler: genericHandler
-// }])
-//
-// server.route({
-//   method: 'GET',
-//   path: '/assets/{param*}',
-//   handler: {
-//     directory: {
-//       path: 'build'
-//     }
-//   }
-// })
-
 // Start the server
 server.register(plugins, function (err) {
   if (err) {
@@ -125,12 +109,3 @@ server.register(plugins, function (err) {
     console.log('Server running at:', server.info.uri)
   })
 })
-// Promise.all([visionReg, inertReg])
-//   .then(function () {
-//     server.start((err) => {
-//       if (err) {
-//         throw err
-//       }
-//       console.log('Server running at:', server.info.uri)
-//     })
-//   })
