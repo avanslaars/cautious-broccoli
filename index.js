@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const Hapi = require('hapi')
 const vision = require('vision')
@@ -11,54 +11,56 @@ const {ServerApp} = require('./compiled_components/app')
 const server = new Hapi.Server()
 
 server.connection({
-    host: 'localhost',
-    port: 8000
-});
+  host: 'localhost',
+  port: 8000
+})
 
 const visionReg = server.register(vision, (err) => {
-    server.views({
-        engines: {
-            html: handlebars
-        },
-        relativeTo: __dirname,
-        path: 'templates'
-    });
-});
+  if (err) {
+    throw err
+  }
+  server.views({
+    engines: {
+      html: handlebars
+    },
+    relativeTo: __dirname,
+    path: 'templates'
+  })
+})
 
 const inertReg = server.register(inert)
 
-const genericHandler = function(request, reply) {
+const genericHandler = function (request, reply) {
   const AppEl = React.createFactory(ServerApp)
-  const initialState = {greeting:'From the server with Handlebars', count: 1}
+  const initialState = {greeting: 'From the server with Handlebars', count: 1}
   const url = request.url.path
   const reactApp = ReactDOMServer.renderToString(AppEl({initialState, url}))
-  reply.view('index', { message: `Entry Point: ${url}`, reactApp, initialState: JSON.stringify(initialState) });
+  reply.view('index', { message: `Entry Point: ${url}`, reactApp, initialState: JSON.stringify(initialState) })
 }
 
 server.route([{
-    method: 'GET',
-    path:'/{param*}',
-    handler: genericHandler
+  method: 'GET',
+  path: '/{param*}',
+  handler: genericHandler
 }])
 
 server.route({
-    method: 'GET',
-    path: '/assets/{param*}',
-    handler: {
-        directory: {
-            path: 'build'
-        }
+  method: 'GET',
+  path: '/assets/{param*}',
+  handler: {
+    directory: {
+      path: 'build'
     }
+  }
 })
 
 // Start the server
 Promise.all([visionReg, inertReg])
-  .then(function() {
+  .then(function () {
     server.start((err) => {
-
       if (err) {
-        throw err;
+        throw err
       }
-      console.log('Server running at:', server.info.uri);
+      console.log('Server running at:', server.info.uri)
     })
   })
