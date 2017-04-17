@@ -13,14 +13,14 @@ const clientConfig = {
   output: {
     path: resolve(__dirname, 'build'),
     filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: '/assets/'
   },
   devtool: 'inline-source-map',
   devServer: {
     hot: true,
     inline: true,
     contentBase: resolve(__dirname, 'build'),
-    publicPath: '/',
+    publicPath: '/assets/',
     historyApiFallback: true
   },
   module: {

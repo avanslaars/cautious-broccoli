@@ -33,7 +33,7 @@ export default class App extends Component {
         <Link to='/cards'>Cards</Link>{' '}
         <Link to='/something/else'>Unhandled Route</Link>{' '}
         <hr />
-        <h2>Woohoo</h2>
+        <h2>Woohoo - It's a Jesus Zombie Day Miracle</h2>
         <Switch>
           <Route path='/' exact render={() => <h2>Home Page</h2>} />
           <Route path='/hello' render={() => (

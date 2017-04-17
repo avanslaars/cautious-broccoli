@@ -8,6 +8,7 @@
     "build:watch": "webpack --watch",
     "run-dev": "nodemon index.js",
     "dev": "npm run build:watch & npm run run-dev",
+    "run-dev-node": "NODE_ENV=development node index.js",
     "prod": "webpack -p",
     "start-dev": "webpack-dev-server --config webpack.config.client.js"
   },
@@ -16,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.16.1",
+    "h2o2": "^5.4.0",
     "handlebars": "^4.0.6",
     "hapi": "^16.1.1",
     "inert": "^4.2.0",

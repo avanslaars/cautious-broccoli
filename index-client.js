@@ -13,7 +13,7 @@ const render = (Component) => {
   ReactDOM.render(
     <BrowserRouter>
       <AppContainer>
-        <Component />
+        <Component {...window.__APP_INITIAL_STATE__} />
       </AppContainer>
     </BrowserRouter>,
     document.getElementById('app')
